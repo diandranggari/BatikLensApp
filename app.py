@@ -20,10 +20,12 @@ CLASS_NAMES = [
     'batik-sogan', 'batik-tambal'
 ]
 
-@st.cache_resource # Cache agar model hanya dimuat sekali
+@st.cache_resource
 def load_batik_model():
-    model = load_model(MODEL_PATH)
-    return model
+    if not os.path.exists(MODEL_PATH):
+        with st.spinner("Mengunduh model AI..."):
+            gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+    return load_model(MODEL_PATH)
 
 model = load_batik_model()
 
